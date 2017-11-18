@@ -100,9 +100,9 @@ class model
 
         $tableName = get_called_class();
 
-
-        $columnString = implode(',',$statement);
-        $valueString = ":".implode(',:',$statement);
+        $array = get_object_vars($this);
+        $columnString = implode(',',$array);
+        $valueString = ":".implode(',:',$array);
 
         echo "INSERT INTO $tableName (".$columnString.")VALUES(".$valueString.")</br>";
 
@@ -148,26 +148,48 @@ class todo extends model
     }
 }
 
+class htmlTable
+{
+    static public function makeTable($data)
+    {
+        echo '<table>';
+
+        foreach ($data as $data)
+        {
+            echo "<tr>";
+
+            foreach ($data as $column) {
+
+                echo "<td>$column</td>";
+            }
+            echo "</tr>";
+        }
+        echo "</table>";
+    }
+}
+
 $obj =	accounts::create();
 $records = $obj->findAll();
-print_r($records);
+htmlTable::makeTable($records);
 echo '<br>';
 echo '<br>';
+
 
 $obj =  accounts::create();
 $records = $obj->findOne(2);
-print_r($records);
+htmlTable::makeTable($records);
 echo '<br>';
 echo '<br>';
 
+
 $obj = todos::create();
 $records = $obj->findAll();
-print_r($records);
+htmlTable::makeTable($records);
 echo '<br>';
 echo '<br>';
 
 $obj =  todos::create();
 $records = $obj->findOne(3);
-print_r($records);
+htmlTable::makeTable($records);
 echo '<br>';
 echo '<br>';
