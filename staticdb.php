@@ -62,7 +62,7 @@ class collection
     {
         $database = dbConnection::getConnection();
         $tableName = get_called_class();
-        $sql = 'SELECT * FROM '. $tableName .' where id= 2';
+        $sql = 'SELECT * FROM '. $tableName .' where id= 1';
         $statement = $database->prepare($sql);
         $statement->execute();
         $class = static::$modelName;
@@ -109,17 +109,14 @@ class model
         echo 'I just saved record: ' .$this->id;
     }
 
-    private function insert()
+    public function insert()
     {
-        $sql = 'mary';
-        return $sql;
+        
     }
 
-    private function update()
+    public function update()
     {
-        $sql = 'mary';
-        return $sql;
-        echo 'I just updated this record'. $this->id;
+
     }
 
     public function delete()
@@ -170,13 +167,16 @@ class htmlTable
 
 $obj =	accounts::create();
 $records = $obj->findAll();
+echo '<h1>Select all the Records in Accounts Table</h1>';
 htmlTable::makeTable($records);
 echo '<br>';
 echo '<br>';
 
 
 $obj =  accounts::create();
-$records = $obj->findOne(2);
+$records = $obj->findOne(1);
+echo '<h1>Select One Record from Accounts Table</h1>';
+echo '<h2>Select Record Id : 1</h2>';
 htmlTable::makeTable($records);
 echo '<br>';
 echo '<br>';
@@ -184,12 +184,16 @@ echo '<br>';
 
 $obj = todos::create();
 $records = $obj->findAll();
+echo '<h1>Select all the Records in Todos Table</h1>';
 htmlTable::makeTable($records);
 echo '<br>';
 echo '<br>';
 
 $obj =  todos::create();
-$records = $obj->findOne(3);
+$records = $obj->findOne(1);
+echo '<h1>Select One Record from Todos Table</h1>';
+echo '<h2>Select Record Id : 1</h2>';
 htmlTable::makeTable($records);
 echo '<br>';
 echo '<br>';
+
