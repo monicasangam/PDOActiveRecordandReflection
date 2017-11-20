@@ -269,7 +269,7 @@ class htmlTable
 
 }
 
-/*
+
 echo '<h1>Insert into Accounts Table</h1>';
 $account1 = new account();
 
@@ -304,9 +304,9 @@ $account1->update($id2, $account1ColumnNames, $account1ColumnValues);
 echo '<h1>Delete record  in Accounts Table</h1>';
 
 $account1->delete($id3);
-*/
 
-/*("ownerEmail","ownerId","createdDate","dueDate","message")
+
+//("ownerEmail","ownerId","createdDate","dueDate","message")
 
 echo '<h1>Insert into ToDo Table</h1>';
 $todo1 = new todo();
@@ -342,10 +342,6 @@ $todo1->update($id2, $toDoColumnNames, $toDoColumnValues);
 echo '<h1>Delete record  in ToDo Table</h1>';
 
 $todo1->delete($id3);
-*/
-
-
-
 
 $accountX = new accountX();
 $accounts = new collection($accountX);
@@ -378,7 +374,6 @@ $records = $todos->findOne(1);
 echo '<h1>Select One Record from Todos Table</h1>';
 echo '<h2>Select Record Id : 1</h2>';
 $formatter->makeTable($records);
-
 echo '<br>';
 echo '<br>';
 
