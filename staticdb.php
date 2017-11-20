@@ -66,7 +66,7 @@ class collection
         $sql = 'SELECT * FROM '. $this->model->tableName .' where id= '.$id;
         $statement = $database->prepare($sql);
         $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_CLASS,$this->model);
+        $statement->setFetchMode(PDO::FETCH_CLASS,get_class($this->model));
         $recordSet = $statement->fetchAll();
         return $recordSet;
     }
@@ -106,14 +106,16 @@ class model
         {
             $sql = $this->insert($columnValues);
 
-            //$database->beginTransaction();
+            $database->beginTransaction();
             $statement = $database->prepare($sql);
-            $statement->execute($sql);
-            //$last_id = $database->lastInsertId();
-            //$database->commit();
 
-            //echo("last_id = " .$last_id."<br>");
-            //return $last_id;
+            echo("sql=".$sql."<br>");
+            $statement->execute();
+            $last_id = $database->lastInsertId();
+            $database->commit();
+
+            echo("last_id = " .$last_id."<br>");
+            return $last_id;
         }
         else
         {
@@ -121,6 +123,7 @@ class model
             $sql = $this->updateAll($id,$columnValues);
             $statement = $database->prepare($sql);
             $database->exec($statement);
+            //$statement->execute();
             $database->commit();
         }
 
@@ -210,6 +213,40 @@ class todo extends model
     }
 }
 
+class modelX
+{
+    public $tableName;
+}
+
+class accountX extends modelX
+{
+    public $id;
+    public $email;
+    public $fname;
+    public $phone;
+    public $birthday;
+    public $gender;
+    public $password;
+
+    public function __construct()
+    {
+        $this->tableName = 'accounts';
+    }
+}
+class todoX extends modelX
+{
+    public $id;
+    public $ownerEmail;
+    public $ownerId;
+    public $createdDate;
+    public $dueDate;
+    public $message;
+
+    public function __construct()
+    {
+        $this->tableName = 'todos';
+    }
+}
 class htmlTable
 {
     public function makeTable($data)
@@ -218,102 +255,87 @@ class htmlTable
 
         foreach ($data as $rowData)
         {
+            //echo($rowData);
             echo "<tr>";
-
-            foreach ($rowData as $columnData) {
-
-                echo "<td>$columnData</td>";
+            foreach ($rowData as $key=>$value) {
+               echo "<td>$value</td>";
             }
             echo "</tr>";
         }
         echo "</table>";
     }
+
+
 }
 
 $account1 = new account();
-/*
 
 $account1ColumnValues = array ("peter@njit.com","Peterxx","Smith","212-555-1212","03-MAY-10","Male","abc123");
 $id1 = $account1->save("", $account1ColumnValues);
-
-print("id1 = ".$last_id."<br>");
-
-
-
+print("id1 = ".$id1."<br>");
 
 
 $account1ColumnValues = array ("sam@njit.com","Sam","Jung","609-555-1212","03-APR-12","Male","pqr345");
 $id2 = $account1->save("",$account1ColumnValues);
-print("id2 = ".$last_id."<br>");
+print("id2 = ".$id2."<br>");
 
 $account1ColumnValues = array ("carol@njit.com","Carol","Barley","212-555-1212","03-DEC-11","Female","aaa123");
 $id3 = $account1->save("",$account1ColumnValues);
-print("id3 = ".$last_id."<br>");
+print("id3 = ".$id3."<br>");
 
 $account1ColumnValues = array ("param@njit.com","Param","Singh","212-555-3333","03-JAN-10","Male","aaabb123");
 $id4 = $account1->save("",$account1ColumnValues);
-print("id4 = ".$last_id."<br>");
-*/
+print("id4 = ".$id4."<br>");
 
 
-//$account1ColumnValues = array ("peter1@njit.com","Petery","Smith1","212-555-1111","03-MAY-10","Male","abc123");
-//$account1->save(20, $account1ColumnValues);
-/*
-$account1ColumnNames = array ("email","fname","lname","phone");
-$account1ColumnValues = array ("sam1@njit.com","Sam1","Jung1","212-555-2222");
-$account1->update($id2, $account1ColumnNames, $account1ColumnValues);
+
+$account1ColumnValues = array ("peter1@njit.com","Petery","Smith1","212-555-1111","03-MAY-10","Male","abc123");
+$account1->save(20, $account1ColumnValues);
+
+
+//$account1ColumnNames = array ("email","fname","lname","phone");
+//$account1ColumnValues = array ("sam1@njit.com","Sam1","Jung1","212-555-2222");
+//$account1->update($id2, $account1ColumnNames, $account1ColumnValues);
 
 $account1->delete($id3);
 
-$accounts = new accounts($acount1);
+
+
+$accountX = new accountX();
+$accounts = new collection($accountX);
+
+$todoX = new todoX();
+$todos = new collection($todoX);
+
 
 $records = $accounts->findAll();
-print($records);
-
-$record = $accounts->findOne($id1);
-print($record);
-
-$record = $accounts->findOne($id2);
-print($record);
-
-$record = $accounts->findOne($id3);
-print($record);
-
-$record = $accounts->findOne($id4);
-print($record);
-*/
-
-
-$obj = new collection($account1);
-$records = $obj->findAll();
 echo '<h1>Select all the Records in Accounts Table</h1>';
 
 $formater= new htmlTable();
 $formater->makeTable($records);
 echo '<br>';
 
-/*
+
 echo '<br>';
-$obj =  accounts::create();
-$records = $obj->findOne(1);
+$records = $accounts->findOne(20);
 echo '<h1>Select One Record from Accounts Table</h1>';
 echo '<h2>Select Record Id : 1</h2>';
-htmlTable::makeTable($records);
+$formater->makeTable($records);
 echo '<br>';
+
+
 echo '<br>';
-$obj = todos::create();
-$records = $obj->findAll();
+
+$records = $todos->findAll();
 echo '<h1>Select all the Records in Todos Table</h1>';
-htmlTable::makeTable($records);
+$formater->makeTable($records);
 echo '<br>';
 echo '<br>';
-$obj =  todos::create();
-$records = $obj->findOne(1);
+$records = $todos->findOne(1);
 echo '<h1>Select One Record from Todos Table</h1>';
 echo '<h2>Select Record Id : 1</h2>';
-htmlTable::makeTable($records);
+$formater->makeTable($records);
 echo '<br>';
 echo '<br>';
 
 
-*/
