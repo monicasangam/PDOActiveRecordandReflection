@@ -1,4 +1,5 @@
 <?php
+
 ini_set('display_errors', on);
 error_reporting(E_ALL);
 
@@ -6,7 +7,6 @@ define('DATABASE','ms792' );
 define('USERNAME', 'ms792');
 define('PASSWORD', 'bSzrOJUh');
 define('CONNECTION', 'sql1.njit.edu');
-
 
 class dbConnection
 {
@@ -39,7 +39,7 @@ class dbConnection
 
 class collection
 {
-    protected $model;
+    private $model;
 
     public function __construct($modelName)
     {
@@ -233,6 +233,7 @@ class accountX extends modelX
         $this->tableName = 'accounts';
     }
 }
+
 class todoX extends modelX
 {
     public $id;
@@ -268,7 +269,7 @@ class htmlTable
 
 }
 
-
+/*
 echo '<h1>Insert into Accounts Table</h1>';
 $account1 = new account();
 
@@ -303,9 +304,9 @@ $account1->update($id2, $account1ColumnNames, $account1ColumnValues);
 echo '<h1>Delete record  in Accounts Table</h1>';
 
 $account1->delete($id3);
+*/
 
-
-//("ownerEmail","ownerId","createdDate","dueDate","message")
+/*("ownerEmail","ownerId","createdDate","dueDate","message")
 
 echo '<h1>Insert into ToDo Table</h1>';
 $todo1 = new todo();
@@ -336,12 +337,12 @@ $todo1->save(20, $toDoColumnValues);
 echo '<h1>Update record (custom columns) in ToDo Table</h1>';
 $toDoColumnNames = array ("ownerEmail","ownerId","createdDate","dueDate","message");
 $toDoColumnValues = array ("sim@njit.com","1","03-MAY-10","03-MAY-10","test1");
-$todo1->update($id2, $toDoColumnNames, $toDoColumnValueslumnValues);
+$todo1->update($id2, $toDoColumnNames, $toDoColumnValues);
 
 echo '<h1>Delete record  in ToDo Table</h1>';
 
 $todo1->delete($id3);
-
+*/
 
 
 
@@ -352,35 +353,35 @@ $accounts = new collection($accountX);
 $todoX = new todoX();
 $todos = new collection($todoX);
 
-
 $records = $accounts->findAll();
 echo '<h1>Select all the Records in Accounts Table</h1>';
 
-$formater= new htmlTable();
-$formater->makeTable($records);
+$formatter = new htmlTable();
+$formatter->makeTable($records);
+echo '<br>';
 echo '<br>';
 
-
-echo '<br>';
 $records = $accounts->findOne(20);
 echo '<h1>Select One Record from Accounts Table</h1>';
 echo '<h2>Select Record Id : 1</h2>';
-$formater->makeTable($records);
+$formatter->makeTable($records);
 echo '<br>';
-
-
 echo '<br>';
 
 $records = $todos->findAll();
 echo '<h1>Select all the Records in Todos Table</h1>';
-$formater->makeTable($records);
+$formatter->makeTable($records);
 echo '<br>';
 echo '<br>';
+
 $records = $todos->findOne(1);
 echo '<h1>Select One Record from Todos Table</h1>';
 echo '<h2>Select Record Id : 1</h2>';
-$formater->makeTable($records);
+$formatter->makeTable($records);
+
 echo '<br>';
 echo '<br>';
+
+
 
 
