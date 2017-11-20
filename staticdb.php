@@ -144,7 +144,7 @@ class model
 
         $insertSql = $insertSql. ") values (";
 
-        for($index=0 ; $index < 7;$index=$index+1) {
+        for($index=0 ; $index < sizeof($columnValues);$index=$index+1) {
             $columnValue = "'".$columnValues[$index]."'";
             if($index==0)
                 $insertSql = $insertSql .  $columnValue;
@@ -167,7 +167,7 @@ class model
         $updateSql = "Update ".$this->tableName." set ";
         echo ("update SQL1 = ".$updateSql);
 
-        for($index = 0; $index < 7;$index=$index+1) {
+        for($index = 0; $index < sizeof($columnValues);$index=$index+1) {
             echo ("index = ".$index. "<br>");
             echo ("columnName = ".$columnNames[$index]. "<br>");
             echo ("columnValue = ".$columnValues[$index]. "<br>");
@@ -268,6 +268,8 @@ class htmlTable
 
 }
 
+
+echo '<h1>Insert into Accounts Table</h1>';
 $account1 = new account();
 
 $account1ColumnValues = array ("peter@njit.com","Peterxx","Smith","212-555-1212","03-MAY-10","Male","abc123");
@@ -288,16 +290,59 @@ $id4 = $account1->save("",$account1ColumnValues);
 print("id4 = ".$id4."<br>");
 
 
+echo '<h1>Update record (all columns) in Accounts Table</h1>';
 
 $account1ColumnValues = array ("peter1@njit.com","Petery","Smith1","212-555-1111","03-MAY-10","Male","abc123");
 $account1->save(20, $account1ColumnValues);
 
+echo '<h1>Update record (custom columns) in Accounts Table</h1>';
+$account1ColumnNames = array ("email","fname","lname","phone");
+$account1ColumnValues = array ("sam1@njit.com","Sam1","Jung1","212-555-2222");
+$account1->update($id2, $account1ColumnNames, $account1ColumnValues);
 
-//$account1ColumnNames = array ("email","fname","lname","phone");
-//$account1ColumnValues = array ("sam1@njit.com","Sam1","Jung1","212-555-2222");
-//$account1->update($id2, $account1ColumnNames, $account1ColumnValues);
+echo '<h1>Delete record  in Accounts Table</h1>';
 
 $account1->delete($id3);
+
+
+
+/*
+echo '<h1>Insert into Accounts Table</h1>';
+$todo1 = new todo();
+
+$account1ColumnValues = array ("peter@njit.com","Peterxx","Smith","212-555-1212","03-MAY-10","Male","abc123");
+$id1 = $todo1->save("", $account1ColumnValues);
+print("id1 = ".$id1."<br>");
+
+
+$account1ColumnValues = array ("sam@njit.com","Sam","Jung","609-555-1212","03-APR-12","Male","pqr345");
+$id2 = $todo1->save("",$account1ColumnValues);
+print("id2 = ".$id2."<br>");
+
+$account1ColumnValues = array ("carol@njit.com","Carol","Barley","212-555-1212","03-DEC-11","Female","aaa123");
+$id3 = $todo1->save("",$account1ColumnValues);
+print("id3 = ".$id3."<br>");
+
+$account1ColumnValues = array ("param@njit.com","Param","Singh","212-555-3333","03-JAN-10","Male","aaabb123");
+$id4 = $todo1->save("",$account1ColumnValues);
+print("id4 = ".$id4."<br>");
+
+
+echo '<h1>Update record (all columns) in Accounts Table</h1>';
+
+$account1ColumnValues = array ("peter1@njit.com","Petery","Smith1","212-555-1111","03-MAY-10","Male","abc123");
+$todo1->save(20, $account1ColumnValues);
+
+echo '<h1>Update record (custom columns) in Accounts Table</h1>';
+$account1ColumnNames = array ("email","fname","lname","phone");
+$account1ColumnValues = array ("sam1@njit.com","Sam1","Jung1","212-555-2222");
+$todo1->update($id2, $account1ColumnNames, $account1ColumnValues);
+
+echo '<h1>Delete record  in Accounts Table</h1>';
+
+$todo1->delete($id3);
+
+*/
 
 
 
